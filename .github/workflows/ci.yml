@@ -25,8 +25,21 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: Build
+      - name: Build Application
         run: dotnet build --no-restore --configuration Release
 
-      - name: Test
+jobs:
+   test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Test Application
         run: dotnet test --no-build --configuration Release
+
+jobs:
+   publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Publish Application
+        run: dotnet publish ./DevOpsApi/DevOpsApi.csproj --configuration Release --no-build --output ./publish
