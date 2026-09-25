@@ -28,18 +28,18 @@ jobs:
       - name: Build Application
         run: dotnet build --no-restore --configuration Release
 
-jobs:
-   test:
-    runs-on: ubuntu-latest
-
+test:
+    needs: build
+    runs-on: ubuntu-latest   
+    
     steps:
       - name: Test Application
         run: dotnet test --no-build --configuration Release
 
-jobs:
-   publish:
-    runs-on: ubuntu-latest
-
+publish:
+    needs: test
+    runs-on: ubuntu-latest   
+    
     steps:
       - name: Publish Application
         run: dotnet publish ./DevOpsApi/DevOpsApi.csproj --configuration Release --no-build --output ./publish
