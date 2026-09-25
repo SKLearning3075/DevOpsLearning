@@ -20,7 +20,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: "8.0.x"
 
       - name: Restore dependencies
         run: dotnet restore
@@ -29,17 +29,17 @@ jobs:
         run: dotnet build --no-restore --configuration Release
 
 test:
-    needs: build
-    runs-on: ubuntu-latest   
-    
-    steps:
-      - name: Test Application
-        run: dotnet test --no-build --configuration Release
+  needs: [build]
+  runs-on: ubuntu-latest
+
+  steps:
+    - name: Test Application
+      run: dotnet test --no-build --configuration Release
 
 publish:
-    needs: test
-    runs-on: ubuntu-latest   
-    
-    steps:
-      - name: Publish Application
-        run: dotnet publish ./DevOpsApi/DevOpsApi.csproj --configuration Release --no-build --output ./publish
+  needs: [build, test]
+  runs-on: ubuntu-latest
+
+  steps:
+    - name: Publish Application
+      run: dotnet publish ./DevOpsApi/DevOpsApi.csproj --configuration Release --no-build --output ./publish
