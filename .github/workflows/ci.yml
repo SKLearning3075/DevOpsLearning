@@ -1,4 +1,4 @@
-name: .NET CI
+name: DevOpsApi CI
 
 on:
   push:
@@ -87,3 +87,19 @@ jobs:
         with:
           name: devops-api
           path: ./publish
+
+  deploy:
+    needs: publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Application Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: devops-api
+          path: ./deploy
+
+      - name: List downloaded files
+        run: |
+          echo "Downloaded application:"
+          ls -la ./deploy
