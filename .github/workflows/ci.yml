@@ -9,6 +9,17 @@ on:
     branches:
       - main
 
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Select deployment environment"
+        required: true
+        type: choice
+        options:
+          - Dev
+          - QA
+          - Production
+
 env:
   BUILD_CONFIGURATION: Release
 
@@ -85,7 +96,7 @@ jobs:
   deploy:
     needs: publish
     runs-on: ubuntu-latest
-    environment: Dev
+    environment: ${{ inputs.environment }}
 
     steps:
       - name: Download Application Artifact
@@ -101,5 +112,5 @@ jobs:
 
       - name: Display environment configuration
         run: |
-          echo "Environment: Dev"
+          echo "Environment:" ${{ inputs.environment }}
           echo "Deploying application: ${{ vars.AZURE_APP_NAME }}"
