@@ -96,8 +96,10 @@ jobs:
 
   deploy:
     needs: publish
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+
+    environment: ${{ inputs.environment || 'Dev' }}
 
     steps:
       - name: Download Application Artifact
@@ -113,5 +115,5 @@ jobs:
 
       - name: Display environment configuration
         run: |
-          echo "Environment:" ${{ inputs.environment }}
+          echo "Environment:" ${{ inputs.environment || 'Dev' }}
           echo "Deploying application: ${{ vars.AZURE_APP_NAME }}"
