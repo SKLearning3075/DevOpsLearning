@@ -98,3 +98,8 @@ jobs:
         run: |
           echo "Downloaded application:"
           ls -la ./deploy
+
+      - name: Display environment configuration
+        run: |
+          echo "Environment: Dev"
+          echo "Deploying application: ${{ vars.AZURE_APP_NAME }}"
