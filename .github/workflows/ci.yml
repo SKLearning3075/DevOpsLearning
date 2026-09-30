@@ -124,3 +124,24 @@ jobs:
           echo "Branch: ${{ github.ref }}"
           echo "Repository: ${{ github.repository }}"
           echo "Workflow: ${{ github.workflow }}"
+
+      - name: Manual deployment information
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: |
+          echo "This was a manual deployment"
+          echo "Selected environment: ${{ inputs.environment }}"
+
+      - name: Production deployment check
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.environment == 'Production' }}
+        run: |
+          echo "Production deployment selected"
+          echo "Environment: ${{ inputs.environment }}"
+
+      - name: Generate deployment information
+        id: deployment-info
+        run: |
+          echo "environment_name=${{ inputs.environment || 'Dev' }}" >> "$GITHUB_OUTPUT"
+
+      - name: Read deployment information
+        run: |
+          echo "Deployment environment: ${{ steps.deployment-info.outputs.environment_name }}"
