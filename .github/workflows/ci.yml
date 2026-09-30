@@ -117,3 +117,10 @@ jobs:
         run: |
           echo "Environment:" ${{ inputs.environment || 'Dev' }}
           echo "Deploying application: ${{ vars.AZURE_APP_NAME }}"
+
+      - name: Display GitHub context
+        run: |
+          echo "Event: ${{ github.event_name }}"
+          echo "Branch: ${{ github.ref }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Workflow: ${{ github.workflow }}"
