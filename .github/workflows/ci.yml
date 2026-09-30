@@ -87,7 +87,7 @@ jobs:
       - name: Generate application version
         id: version
         run: |
-          VERSION = "1".0.${GITHUB_RUN_NUMBER}"
+          VERSION = "1.0.${GITHUB_RUN_NUMBER}"
           echo "version = $VERSION" >> "$GITHUB_OUTPUT"
           echo "Generated version: - $VERSION"
 
