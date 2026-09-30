@@ -66,15 +66,15 @@ jobs:
         run: >
           dotnet test
           --configuration $BUILD_CONFIGURATION
-          -logger "trx;LogFileName=test-results.trx"
+          --logger "trx;LogFileName=./test-results/test-results.trx"
 
       - name: Upload test results
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: test-results
-          path: "**/TestResults/*.trx"
-          if-no-files-found: warn
+          path: ./test-results
+          if-no-files-found: error
 
   diagnostics:
     needs: test
