@@ -135,6 +135,7 @@ jobs:
         with:
           name: devops-api
           path: ./publish
+          retention-days: 7
 
   deploy:
     needs: publish
