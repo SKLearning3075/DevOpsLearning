@@ -99,6 +99,47 @@ jobs:
           echo "Diagnostic files:"
           find ./test-results -type f -print
 
+  unit-test:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Run Unit Tests
+        run: dotnet test --configuration $BUILD_CONFIGURATION
+
+  security-scan:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Security Scan Simulation
+        run: |
+          echo "Running security scan..."
+          sleep 10
+          echo "Security scan completed."
+
   publish:
     needs: [unit-test, security-scan]
     runs-on: ubuntu-latest
@@ -193,44 +234,3 @@ jobs:
       - name: Read deployment information
         run: |
           echo "Deployment version generated under publish: ${{ needs.publish.outputs.version}}"
-
-unit-test:
-  needs: build
-  runs-on: ubuntu-latest
-
-  steps:
-    - name: Checkout source code
-      uses: actions/checkout@v4
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: "8.0.x"
-
-    - name: Restore dependencies
-      run: dotnet restore
-
-    - name: Run Unit Tests
-      run: dotnet test --configuration $BUILD_CONFIGURATION
-
-security-scan:
-  needs: build
-  runs-on: ubuntu-latest
-
-  steps:
-    - name: Checkout source code
-      uses: actions/checkout@v4
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: "8.0.x"
-
-    - name: Restore dependencies
-      run: dotnet restore
-
-    - name: Security Scan Simulation
-      run: |
-        echo "Running security scan..."
-        sleep 10
-        echo "Security scan completed."
