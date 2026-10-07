@@ -1,11 +1,12 @@
 var builder = WebApplication.CreateBuilder(args);
-
+// DevOps learning project - health check feature
+builder.Services.AddHealthChecks();
 // DevOps learning project - health check feature
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
 var app = builder.Build();
-
+app.MapHealthChecks("/health");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
